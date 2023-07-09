@@ -16,21 +16,32 @@ namespace kapBildirim
 
             foreach (var i in kapList)
             {
+               try{
                 temp = i["basic"]["disclosureIndex"].ToString();
                 Console.WriteLine(temp);
-                temp = i["basic"]["title"].ToString();
-                Console.WriteLine(temp);  
-                temp = i["basic"]["summary"].ToString();
-                Console.WriteLine(temp); 
-                temp = i["basic"]["companyName"].ToString();
-                Console.WriteLine(temp); 
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+               // temp = i["basic"]["title"].ToString();
+               // Console.WriteLine(temp);  
+               // temp = i["basic"]["summary"].ToString();
+               // Console.WriteLine(temp); 
+               // temp = i["basic"]["companyName"].ToString();
+               // Console.WriteLine(temp); 
                 using (MemoryStream ms = new MemoryStream(client.DownloadData("https://www.kap.org.tr/tr/BildirimPdf/"+i["basic"]["disclosureIndex"])))
                 {
                 doc.LoadFromStream(ms);
 
                 }
+                try{
                 doc.SaveToFile(temp+".pdf", FileFormat.PDF);
-
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
 
         }
